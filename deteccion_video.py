@@ -125,7 +125,7 @@ if __name__ == "__main__":
                     box_w = x2 - x1
                     box_h = y2 - y1
                     color = [int(c) for c in colors[int(cls_pred)]]
-                    print("Se detectó {} en X1: {}, Y1: {}, X2: {}, Y2: {}" hour(), .format(classes[int(cls_pred)], x1, y1, x2, y2))
+                    print("Se detectó {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x1, y1, x2, y2))
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
                     
                     # Codigo Nuevo
