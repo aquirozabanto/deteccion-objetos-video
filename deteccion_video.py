@@ -14,7 +14,7 @@ from torch.autograd import Variable
 #largura_min = 80  # Largura minima do retangulo
 #altura_min = 80  # Altura minima do retangulo
 #offset = 6  # Erro permitido entre pixel
-pos_linha = 2500
+pos_linha = 1500
 #delay = 60  # FPS do vídeo
 #detec = []
 # Codigo Nuevo
