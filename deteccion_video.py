@@ -14,7 +14,7 @@ from torch.autograd import Variable
 #largura_min = 80  # Largura minima do retangulo
 #altura_min = 80  # Altura minima do retangulo
 #offset = 6  # Erro permitido entre pixel
-pos_linha = 550
+pos_linha = 2500
 #delay = 60  # FPS do vídeo
 #detec = []
 # Codigo Nuevo
@@ -39,9 +39,6 @@ def Convertir_BGR(img):
     img[:, :, 1] = g
     img[:, :, 2] = r
     return img
-
-
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
