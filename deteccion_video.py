@@ -11,6 +11,13 @@ import torch
 from torch.autograd import Variable
 
 # Codigo Nuevo
+#largura_min = 80  # Largura minima do retangulo
+#altura_min = 80  # Altura minima do retangulo
+#offset = 6  # Erro permitido entre pixel
+pos_linha = 550
+#delay = 60  # FPS do vídeo
+#detec = []
+# Codigo Nuevo
 
 def Convertir_RGB(img):
     # Convertir Blue, green, red a Red, green, blue
@@ -93,6 +100,9 @@ if __name__ == "__main__":
             detections = model(imgTensor)
             detections = non_max_suppression(detections, opt.conf_thres, opt.nms_thres)
 
+        #Codigo Nuevo
+        cv2.line(frame, (25, pos_linha), (1200, pos_linha), (255, 127, 0), 3)
+        
         for detection in detections:
             if detection is not None:
                 detection = rescale_boxes(detection, opt.img_size, RGBimg.shape[:2])
