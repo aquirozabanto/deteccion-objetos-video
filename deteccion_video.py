@@ -14,7 +14,7 @@ from torch.autograd import Variable
 largura_min = 80  # Largura minima do retangulo
 altura_min = 80  # Altura minima do retangulo
 offset = 6  # Erro permitido entre pixel
-pos_linha = 750
+pos_linha = 550
 #delay = 60  # FPS do vídeo
 detec = []
 
@@ -35,7 +35,7 @@ def pega_centro(aqx, aqy, largura, altura):
 def set_info(detec):
     global carros
     for (aqx, aqy) in detec:
-        if (pos_linha + offset) > y > (pos_linha - offset):
+        if (pos_linha + offset) > aqy > (pos_linha - offset):
             carros += 1
             cv2.line(frame1, (25, pos_linha), (1200, pos_linha), (0, 127, 255), 3)
             detec.remove((aqx, aqy))
