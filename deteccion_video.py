@@ -110,9 +110,6 @@ if __name__ == "__main__":
 
 
             
-# Codigo Nuevo            
-        cv2.line(frame1, (25, pos_linha), (1200, pos_linha), (255, 127, 0), 3)            
-# Codigo Nuevo
 
 
         for detection in detections:
@@ -126,6 +123,9 @@ if __name__ == "__main__":
                     print("Se detectó {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x1, y1, x2, y2))
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
                     
+                    # Codigo Nuevo            
+                        cv2.line(frame, (25, pos_linha), (1200, pos_linha), (255, 127, 0), 3)            
+                    # Codigo Nuevo
                     cv2.putText(frame, classes[int(cls_pred)], (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 5)# Nombre de la clase detectada
                     cv2.putText(frame, str("%.2f" % float(conf)), (x2, y2 - box_h), cv2.FONT_HERSHEY_SIMPLEX, 0.5,color, 5) # Certeza de prediccion de la clase
         #
