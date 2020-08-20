@@ -11,31 +11,6 @@ import torch
 from torch.autograd import Variable
 
 # Codigo Nuevo
-largura_min = 80  # Largura minima do retangulo
-altura_min = 80  # Altura minima do retangulo
-offset = 6  # Erro permitido entre pixel
-pos_linha = 550  # Posição da linha de contagem
-delay = 60  # FPS do vídeo
-detec = []
-
-def pega_centro(AQx, AQy, largura, altura):
-    AQx1 = largura // 2
-    AQy1 = altura // 2
-    AQcx = AQx + AQx1
-    AQcy = AQy + AQy1
-    return AQcx, AQcy
-
-def set_info(detec):
-    global carros
-    for (x, y) in detec:
-        if (pos_linha + offset) > y > (pos_linha - offset):
-            carros += 1
-            cv2.line(frame, (25, pos_linha), (1200, pos_linha), (0, 127, 255), 3)
-            detec.remove((x, y))
-            print("Carros detectados até o momento: " + str(carros))
-
-# Codigo Nuevo
-
 
 def Convertir_RGB(img):
     # Convertir Blue, green, red a Red, green, blue
@@ -125,15 +100,8 @@ if __name__ == "__main__":
                     box_w = x2 - x1
                     box_h = y2 - y1
                     color = [int(c) for c in colors[int(cls_pred)]]
-                    print("Se detectó {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x1, y1, x2, y2))
+                    print("Detectado {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x1, y1, x2, y2))
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
-                    
-                    # Codigo Nuevo
-                    centro = pega_centro(x, y, w, h)
-                    detec.append(centro)
-                    cv2.circle(frame, centro, 4, (0, 0, 255), -1)
-                    # Codigo Nuevo
-                    
                     cv2.putText(frame, classes[int(cls_pred)], (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 5)# Nombre de la clase detectada
                     cv2.putText(frame, str("%.2f" % float(conf)), (x2, y2 - box_h), cv2.FONT_HERSHEY_SIMPLEX, 0.5,color, 5) # Certeza de prediccion de la clase
         #
