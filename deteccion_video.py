@@ -76,20 +76,6 @@ if __name__ == "__main__":
         if ret is False:
             break
         
-        #Codigo Nuevo
-        bbox = cv2.selectROI("tracking", frame)
-        tracker = cv2.TrackerMIL_create()
-        ret = tracker.init(frame, bbox)
-        ret, newbox = tracker.update(frame)
-        print (ok, newbox)
-
-        if ret:
-            p1 = (int(newbox[0]), int(newbox[1]))
-            p2 = (int(newbox[0] + newbox[2]), int(newbox[1] + newbox[3]))
-            cv2.rectangle(frame, p1, p2, (200,0,0))
-        #Codigo Nuevo
-        
-        
         frame = cv2.resize(frame, (1280, 960), interpolation=cv2.INTER_CUBIC)
 
         #LA imagen viene en Blue, Green, Red y la convertimos a RGB que es la entrada que requiere el modelo
@@ -112,8 +98,17 @@ if __name__ == "__main__":
                     box_w = x2 - x1
                     box_h = y2 - y1
                     color = [int(c) for c in colors[int(cls_pred)]]
+
                     
-                    print("Identificado {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x1, y1, x2, y2))
+                    #Codigo Nuevo
+                    bbox = cv2.selectROI("tracking", frame)
+                    tracker = cv2.TrackerMIL_create()
+                    ret = tracker.init(frame, bbox)
+                    ret, newbox = tracker.update(frame)
+                    #print (ok, newbox)
+                    #Codigo Nuevo
+                    
+                    print("Identificado {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], ret, x1, y1, x2, y2))
                     
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
                     
