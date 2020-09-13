@@ -98,7 +98,7 @@ if __name__ == "__main__":
 
                     # *** Nuevo Codigo *** #
                     #print("Identificado {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x1, y1, x2, y2))
-                    print("Identificado ID {} {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], .format(classes[int(cls_id)], x1, y1, x2, y2))
+                    print("Identificado ID {} {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], classes[int(cls_id)], x1, y1, x2, y2))
                     # *** Nuevo Codigo *** #
                           
                     
