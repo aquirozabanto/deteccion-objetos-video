@@ -68,9 +68,6 @@ if __name__ == "__main__":
         # frame_height = int(cap.get(4))
         out = cv2.VideoWriter('outp.mp4',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (1280,960))
     colors = np.random.randint(0, 255, size=(len(classes), 3), dtype="uint8")
-    #Codigo Nuevo
-    label = '%s:%s' % (classes[cls_id], label)
-    #Codigo Nuevo
     
     a=[]
     while cap:
