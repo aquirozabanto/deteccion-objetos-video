@@ -23,10 +23,6 @@ def Convertir_RGB(img):
 #Codigo Nuevo
 def drawPred (classId, conf, left, top, right, bottom): 
  label = '%.2f' % conf
-# Get the label for the class name and its confidence
-if classes:
-    assert(classId < len(classes))
-    label = '%s:%s' % (classes[classId], label)#Codigo Nuevo
 #Codigo Nuevo
 
 def Convertir_BGR(img):
@@ -67,6 +63,14 @@ if __name__ == "__main__":
 
     model.eval()  
     classes = load_classes(opt.class_path)
+
+    #Codigo Nuevo
+    # Get the label for the class name and its confidence
+    if classes:
+        assert(classId < len(classes))
+        label = '%s:%s' % (classes[classId], label)
+    #Codigo Nuevo
+    
     Tensor = torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
     if opt.webcam==1:
         cap = cv2.VideoCapture(0)
