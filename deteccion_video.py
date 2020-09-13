@@ -8,7 +8,7 @@ import argparse
 
 #Codigo Nuevo
 import numpy as np
-import Tracker
+from deep_sort.tracker import Tracker
 #Codigo Nuevo
 
 import cv2
