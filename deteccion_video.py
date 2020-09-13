@@ -21,7 +21,7 @@ def Convertir_RGB(img):
     return img
 
 #Codigo Nuevo
-def drawPred (classId):
+def drawPred (classId)
 #Codigo Nuevo
 
 def Convertir_BGR(img):
