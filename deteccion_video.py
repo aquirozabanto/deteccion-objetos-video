@@ -127,7 +127,7 @@ if __name__ == "__main__":
             cv2.imshow('frame', RGBimg)
 
         if cv2.waitKey(25) & 0xFF == ord('q'):
-            break
+            ###break
     out.release()
     cap.release()
     cv2.destroyAllWindows()
