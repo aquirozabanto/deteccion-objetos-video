@@ -20,6 +20,9 @@ def Convertir_RGB(img):
     img[:, :, 2] = b
     return img
 
+#Codigo Nuevo
+def drawPred (classId):
+#Codigo Nuevo
 
 def Convertir_BGR(img):
     # Convertir red, blue, green a Blue, green, red
@@ -90,8 +93,7 @@ if __name__ == "__main__":
         for detection in detections:
             if detection is not None:
                 detection = rescale_boxes(detection, opt.img_size, RGBimg.shape[:2])
-                #for x1, y1, x2, y2, conf, cls_conf, cls_pred in detection:
-                for x1, y1, x2, y2, conf, cls_conf, classID, cls_pred in detection:
+                for x1, y1, x2, y2, conf, cls_conf, cls_pred in detection:
                     box_w = x2 - x1
                     box_h = y2 - y1
                     color = [int(c) for c in colors[int(cls_pred)]]
@@ -108,6 +110,7 @@ if __name__ == "__main__":
                     #labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
                     #top = max(top, labelSize[1]) - 5
                     #cv2.putText(resized_frame, label, (left, top), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,255), 2)                    
+
                     # *** Nuevo Codigo *** #
                     
                     #print("Identificado {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x1, y1, x2, y2))
