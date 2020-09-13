@@ -100,6 +100,7 @@ if __name__ == "__main__":
                     #print("Identificado {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x1, y1, x2, y2))
                     print("Identificado ID {} {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], .format(classes[int(cls_id)], x1, y1, x2, y2))
                     # *** Nuevo Codigo *** #
+                          
                     
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
                     
