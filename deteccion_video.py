@@ -7,14 +7,37 @@ import sys
 import argparse
 
 #Codigo Nuevo
-import numpy as np
-from deep_sort.tracker import Tracker
+from imutils.video import VideoStream
+import argparse
+import imutils
+import time
 #Codigo Nuevo
 
 import cv2
 from PIL import Image
 import torch
 from torch.autograd import Variable
+
+
+def empty(a):
+    pass
+
+cv2.namedWindow("HSV")
+cv2.resizeWindow("HSV",640,240)
+cv2.createTrackbar("HUE Min","HSV",19,179,empty)
+cv2.createTrackbar("HUE Max","HSV",35,179,empty)
+cv2.createTrackbar("SAT Min","HSV",107,255,empty)
+cv2.createTrackbar("SAT Max","HSV",255,255,empty)
+cv2.createTrackbar("VALUE Min","HSV",89,255,empty)
+cv2.createTrackbar("VALUE Max","HSV",255,255,empty)
+
+cv2.namedWindow("Parameters")
+cv2.resizeWindow("Parameters",640,240)
+cv2.createTrackbar("Threshold1","Parameters",166,255,empty)
+cv2.createTrackbar("Threshold2","Parameters",171,255,empty)
+cv2.createTrackbar("Area","Parameters",3750,30000,empty)
+
+
 
 def Convertir_RGB(img):
     # Convertir Blue, green, red a Red, green, blue
