@@ -5,38 +5,10 @@ from utils.datasets import *
 import os
 import sys
 import argparse
-
-#Codigo Nuevo
-from imutils.video import VideoStream
-import argparse
-import imutils
-import time
-#Codigo Nuevo
-
 import cv2
 from PIL import Image
 import torch
 from torch.autograd import Variable
-
-
-def empty(a):
-    pass
-
-cv2.namedWindow("HSV")
-cv2.resizeWindow("HSV",640,240)
-cv2.createTrackbar("HUE Min","HSV",19,179,empty)
-cv2.createTrackbar("HUE Max","HSV",35,179,empty)
-cv2.createTrackbar("SAT Min","HSV",107,255,empty)
-cv2.createTrackbar("SAT Max","HSV",255,255,empty)
-cv2.createTrackbar("VALUE Min","HSV",89,255,empty)
-cv2.createTrackbar("VALUE Max","HSV",255,255,empty)
-
-cv2.namedWindow("Parameters")
-cv2.resizeWindow("Parameters",640,240)
-cv2.createTrackbar("Threshold1","Parameters",166,255,empty)
-cv2.createTrackbar("Threshold2","Parameters",171,255,empty)
-cv2.createTrackbar("Area","Parameters",3750,30000,empty)
-
 
 
 def Convertir_RGB(img):
@@ -148,7 +120,7 @@ if __name__ == "__main__":
         
         #Codigo Nuevo
                     
-                    print("Identificado {} {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], str(track.track_id), x1, y1, x2, y2))
+                    print("Identificado {} {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], str(tracker.track_id), x1, y1, x2, y2))
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
                     cv2.putText(frame, classes[int(cls_pred)], (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 5)# Nombre de la clase detectada
                     cv2.putText(frame, str("%.2f" % float(conf)), (x2, y2 - box_h), cv2.FONT_HERSHEY_SIMPLEX, 0.5,color, 5) # Certeza de prediccion de la clase
