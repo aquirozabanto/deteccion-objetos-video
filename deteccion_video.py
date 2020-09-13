@@ -83,7 +83,6 @@ if __name__ == "__main__":
         imgTensor = imgTensor.unsqueeze(0)
         imgTensor = Variable(imgTensor.type(Tensor))
 
-
         with torch.no_grad():
             detections = model(imgTensor)
             detections = non_max_suppression(detections, opt.conf_thres, opt.nms_thres)
@@ -96,9 +95,27 @@ if __name__ == "__main__":
                     box_h = y2 - y1
                     color = [int(c) for c in colors[int(cls_pred)]]
 
-                    print("Identificado {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x1, y1, x2, y2))
+                    # *** Nuevo Codigo *** #
+                    label = '%.2f' % conf
+
+                    # Get the label for the class name and its confidence
+                    if classes:
+                        assert(classId < len(classes))
+                        label = '%s:%s' % (classes[classId], label)
+
+                    ##Display the label at the top of the bounding box
+                    #labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
+                    #top = max(top, labelSize[1]) - 5
+                    #cv2.putText(resized_frame, label, (left, top), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,255), 2)                    
+                    # *** Nuevo Codigo *** #
+                    
+                    #print("Identificado {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x1, y1, x2, y2))
+                    print("Identificado ID {} {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], label, x1, y1, x2, y2))
+                    
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
+                    
                     cv2.putText(frame, classes[int(cls_pred)], (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 5)# Nombre de la clase detectada
+                    
                     cv2.putText(frame, str("%.2f" % float(conf)), (x2, y2 - box_h), cv2.FONT_HERSHEY_SIMPLEX, 0.5,color, 5) # Certeza de prediccion de la clase
 
         #Convertimos de vuelta a BGR para que cv2 pueda desplegarlo en los colores correctos
