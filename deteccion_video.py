@@ -111,11 +111,6 @@ if __name__ == "__main__":
         p2 = (int(newbox[0] + newbox[2]), int(newbox[1] + newbox[3]))
         cv2.rectangle(frame, p1, p2, (200,0,0))
 
-    cv2.imshow("tracking", frame)
-    k = cv2.waitKey(1) & 0xff
-    if k == 27 : break # esc pressed                    
-                    
-                    
                     #Codigo Nuevo
                     
                     ###print("Identificado {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], ret, x1, y1, x2, y2))
