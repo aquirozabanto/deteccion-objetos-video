@@ -83,7 +83,7 @@ if __name__ == "__main__":
         #Codigo Nuevo
         bbox = (287, 23, 86, 320)
         ret = tracker.init(frame, bbox)
-        print ret
+        print (ret)
         #Codigo Nuevo
         
         frame = cv2.resize(frame, (1280, 960), interpolation=cv2.INTER_CUBIC)
