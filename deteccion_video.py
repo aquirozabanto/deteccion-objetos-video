@@ -10,39 +10,6 @@ from PIL import Image
 import torch
 from torch.autograd import Variable
 
-# Codigo Nuevo
-largura_min = 80  # Largura minima do retangulo
-altura_min = 80  # Altura minima do retangulo
-offset = 6  # Erro permitido entre pixel
-pos_linha = 550
-#delay = 60  # FPS do vídeo
-detec = []
-
-def pega_centro(aqx, aqy, largura, altura):
-    """
-    :param x: x do objeto
-    :param y: y do objeto
-    :param largura: largura do objeto
-    :param altura: altura do objeto
-    :return: tupla que contém as coordenadas do centro de um objeto
-    """
-    aqx1 = largura // 2
-    aqy1 = altura // 2
-    cx = aqx + aqx1
-    cy = aqy + aqy1
-    return cx, cy
-
-def set_info(detec):
-    global carros
-    for (aqx, aqy) in detec:
-        if (pos_linha + offset) > aqy > (pos_linha - offset):
-            carros += 1
-            cv2.line(frame1, (25, pos_linha), (1200, pos_linha), (0, 127, 255), 3)
-            detec.remove((aqx, aqy))
-            print("Persons Detected: " + str(carros))
-
-# Codigo Nuevo
-
 def Convertir_RGB(img):
     # Convertir Blue, green, red a Red, green, blue
     b = img[:, :, 0].copy()
@@ -121,9 +88,6 @@ if __name__ == "__main__":
             detections = model(imgTensor)
             detections = non_max_suppression(detections, opt.conf_thres, opt.nms_thres)
 
-        #Codigo Nuevo
-        cv2.line(frame, (25, pos_linha), (1200, pos_linha), (255, 127, 0), 3)
-        
         for detection in detections:
             if detection is not None:
                 detection = rescale_boxes(detection, opt.img_size, RGBimg.shape[:2])
@@ -132,27 +96,18 @@ if __name__ == "__main__":
                     box_h = y2 - y1
                     color = [int(c) for c in colors[int(cls_pred)]]
 
-                    print("Detectado {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x1, y1, x2, y2))
+                    print("Identificado {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x1, y1, x2, y2))
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
                     cv2.putText(frame, classes[int(cls_pred)], (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 5)# Nombre de la clase detectada
                     cv2.putText(frame, str("%.2f" % float(conf)), (x2, y2 - box_h), cv2.FONT_HERSHEY_SIMPLEX, 0.5,color, 5) # Certeza de prediccion de la clase
 
-                    #Codigo Nuevo
-                    centro = pega_centro(x1, y1, box_w, box_h)
-                    detec.append(centro)
-                    cv2.circle(frame, centro, 4, (0, 0, 255), -1)
-                    set_info(detec)
-                    #Codigo Nuevo
-
         #Convertimos de vuelta a BGR para que cv2 pueda desplegarlo en los colores correctos
-        
         if opt.webcam==1:
             cv2.imshow('frame', Convertir_BGR(RGBimg))
             out.write(RGBimg)
         else:
             out.write(Convertir_BGR(RGBimg))
             cv2.imshow('frame', RGBimg)
-        #cv2.waitKey(0)
 
         if cv2.waitKey(25) & 0xFF == ord('q'):
             break
