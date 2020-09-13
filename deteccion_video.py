@@ -99,20 +99,8 @@ if __name__ == "__main__":
                     box_h = y2 - y1
                     color = [int(c) for c in colors[int(cls_pred)]]
 
-                    #Codigo Nuevo
-                    bbox = cv2.selectROI("tracking", frame)
-                    tracker = cv2.TrackerMIL_create()
-                    ret = tracker.init(frame, bbox)
-                    ret, newbox = tracker.update(frame)
-                    if ret:
-                        p1 = (int(newbox[0]), int(newbox[1]))
-                        p2 = (int(newbox[0] + newbox[2]), int(newbox[1] + newbox[3]))
-                        #cv2.rectangle(frame, p1, p2, (200,0,0))
-                    #Codigo Nuevo
-    
                     print("Identificado {} {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], ret, x1, y1, x2, y2))
-                    #frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
-                    frame = cv2.rectangle(frame, p1, p2, (200,0,0))
+                    frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
                     cv2.putText(frame, classes[int(cls_pred)], (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 5)# Nombre de la clase detectada
                     cv2.putText(frame, str("%.2f" % float(conf)), (x2, y2 - box_h), cv2.FONT_HERSHEY_SIMPLEX, 0.5,color, 5) # Certeza de prediccion de la clase
 
