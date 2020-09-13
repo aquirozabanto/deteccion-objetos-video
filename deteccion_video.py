@@ -77,10 +77,18 @@ if __name__ == "__main__":
             break
         
         #Codigo Nuevo
-        bbox = (287, 23, 86, 320)
+        bbox = cv2.selectROI("tracking", frame)
+        tracker = cv2.TrackerMIL_create()
         ret = tracker.init(frame, bbox)
-        print (ret)
+        ret, newbox = tracker.update(frame)
+        print (ok, newbox)
+
+        if ret:
+            p1 = (int(newbox[0]), int(newbox[1]))
+            p2 = (int(newbox[0] + newbox[2]), int(newbox[1] + newbox[3]))
+            cv2.rectangle(frame, p1, p2, (200,0,0))
         #Codigo Nuevo
+        
         
         frame = cv2.resize(frame, (1280, 960), interpolation=cv2.INTER_CUBIC)
 
