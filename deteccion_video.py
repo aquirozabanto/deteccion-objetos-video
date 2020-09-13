@@ -131,7 +131,7 @@ if __name__ == "__main__":
 
         if cv2.waitKey(25) & 0xFF == ord('q'):
             #break
-    out.release()
+    #out.release()
     cap.release()
     cv2.destroyAllWindows()
 
