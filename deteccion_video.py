@@ -73,6 +73,10 @@ if __name__ == "__main__":
     
     a=[]
     while cap:
+        #Cofigo Nuevo
+        tracker = cv2.TrackerKCF_create()
+        #Cofigo Nuevo
+        
         ret, frame = cap.read()
         if ret is False:
             break
