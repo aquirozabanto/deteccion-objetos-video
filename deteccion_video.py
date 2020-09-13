@@ -21,11 +21,12 @@ def Convertir_RGB(img):
     return img
 
 #Codigo Nuevo
-#def drawPred (classId, conf, left, top, right, bottom): 
-def drawPred (classId): 
- # Dibuja un cuadro delimitador. 
- #cv2.rectangle (resized_frame, (left, top), (right, bottom), (255,0,255), 5) 
+def drawPred (classId, conf, left, top, right, bottom): 
  label = '%.2f' % conf
+# Get the label for the class name and its confidence
+if classes:
+    assert(classId < len(classes))
+    label = '%s:%s' % (classes[classId], label)#Codigo Nuevo
 #Codigo Nuevo
 
 def Convertir_BGR(img):
@@ -103,20 +104,9 @@ if __name__ == "__main__":
                     color = [int(c) for c in colors[int(cls_pred)]]
 
                     # *** Nuevo Codigo *** #
-                    # Get the label for the class name and its confidence
-                    if classes:
-                        assert(classId < len(classes))
-                        label = '%s:%s' % (classes[classId], label)
-
-                    ##Display the label at the top of the bounding box
-                    #labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
-                    #top = max(top, labelSize[1]) - 5
-                    #cv2.putText(resized_frame, label, (left, top), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,255), 2)                    
-
-                    # *** Nuevo Codigo *** #
-                    
                     #print("Identificado {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x1, y1, x2, y2))
                     print("Identificado ID {} {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], label, x1, y1, x2, y2))
+                    # *** Nuevo Codigo *** #
                     
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
                     
