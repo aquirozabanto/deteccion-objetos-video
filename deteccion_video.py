@@ -20,11 +20,6 @@ def Convertir_RGB(img):
     img[:, :, 2] = b
     return img
 
-#Codigo Nuevo
-def drawPred (classId, conf, left, top, right, bottom): 
- label = '%.2f' % conf
-#Codigo Nuevo
-
 def Convertir_BGR(img):
     # Convertir red, blue, green a Blue, green, red
     r = img[:, :, 0].copy()
@@ -63,14 +58,6 @@ if __name__ == "__main__":
 
     model.eval()  
     classes = load_classes(opt.class_path)
-
-    #Codigo Nuevo
-    # Get the label for the class name and its confidence
-    if classes:
-        assert(classId < len(classes))
-        label = '%s:%s' % (classes[classId], label)
-    #Codigo Nuevo
-    
     Tensor = torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
     if opt.webcam==1:
         cap = cv2.VideoCapture(0)
@@ -81,6 +68,10 @@ if __name__ == "__main__":
         # frame_height = int(cap.get(4))
         out = cv2.VideoWriter('outp.mp4',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (1280,960))
     colors = np.random.randint(0, 255, size=(len(classes), 3), dtype="uint8")
+    #Codigo Nuevo
+    label = '%s:%s' % (classes[cls_id], label)
+    #Codigo Nuevo
+    
     a=[]
     while cap:
         ret, frame = cap.read()
@@ -102,7 +93,8 @@ if __name__ == "__main__":
         for detection in detections:
             if detection is not None:
                 detection = rescale_boxes(detection, opt.img_size, RGBimg.shape[:2])
-                for x1, y1, x2, y2, conf, cls_conf, cls_pred in detection:
+                ###for x1, y1, x2, y2, conf, cls_conf, cls_id, cls_pred in detection:
+                for x1, y1, x2, y2, conf, cls_conf, cls_id, cls_pred in detection:
                     box_w = x2 - x1
                     box_h = y2 - y1
                     color = [int(c) for c in colors[int(cls_pred)]]
