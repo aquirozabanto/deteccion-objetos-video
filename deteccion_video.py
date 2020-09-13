@@ -5,6 +5,11 @@ from utils.datasets import *
 import os
 import sys
 import argparse
+
+#Codigo Nuevo
+import numpy as np
+#Codigo Nuevo
+
 import cv2
 from PIL import Image
 import torch
@@ -99,7 +104,27 @@ if __name__ == "__main__":
                     box_h = y2 - y1
                     color = [int(c) for c in colors[int(cls_pred)]]
 
-                    print("Identificado {} {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], ret, x1, y1, x2, y2))
+        #Codigo Nuevo
+                    #tracker.predict()
+                    #tracker.update(detections)
+                    #cmap = plt.get_camp('tab20b')
+                    #colors = [cmap(i)[:3] for i in np.linspace(0,1,20)]
+                    #for track in tracker.tracks:
+                    #    if not track.is_confirmed() or track.time_since_update >1
+                    #        continue
+                        
+                    #    bbox=track.to_tlbr()
+                    #    class_name=track.get_class()
+                    #    color=colors[int(track.track_id) % len(colors)]
+                    #    color = [i * 255 for i in color]
+                        
+                    #    cv2.rectangle(img, (int(bbox[0]),int(bbox[1])),(int(bbox[2]),int(bbox[3])),color,2)
+                    #    cv2.rectangle(img, (int(bbox[0]),int(bbox[1]-30)),(int(bbox[0])+(len(class_name)+len(str(track.track_id)))*17, int(bbox[1])), color, -1)
+                    #    cv2.putText(img, class_name+"-"+str(track.track_id), (int(bbox[0]),int(bbox[1]-10)),0,0.75, (255,255,255),2)
+        
+        #Codigo Nuevo
+                    
+                    print("Identificado {} {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], str(track.track_id), x1, y1, x2, y2))
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
                     cv2.putText(frame, classes[int(cls_pred)], (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 5)# Nombre de la clase detectada
                     cv2.putText(frame, str("%.2f" % float(conf)), (x2, y2 - box_h), cv2.FONT_HERSHEY_SIMPLEX, 0.5,color, 5) # Certeza de prediccion de la clase
