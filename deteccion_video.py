@@ -21,7 +21,11 @@ def Convertir_RGB(img):
     return img
 
 #Codigo Nuevo
-def drawPred (classId)
+#def drawPred (classId, conf, left, top, right, bottom): 
+def drawPred (classId): 
+ # Dibuja un cuadro delimitador. 
+ #cv2.rectangle (resized_frame, (left, top), (right, bottom), (255,0,255), 5) 
+ label = '%.2f' % conf
 #Codigo Nuevo
 
 def Convertir_BGR(img):
@@ -99,8 +103,6 @@ if __name__ == "__main__":
                     color = [int(c) for c in colors[int(cls_pred)]]
 
                     # *** Nuevo Codigo *** #
-                    label = '%.2f' % conf
-
                     # Get the label for the class name and its confidence
                     if classes:
                         assert(classId < len(classes))
