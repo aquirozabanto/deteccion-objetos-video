@@ -59,6 +59,11 @@ if __name__ == "__main__":
     model.eval()  
     classes = load_classes(opt.class_path)
     Tensor = torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
+
+    #Codigo Nuevo
+    tracker = cv2.Tracker_create("MIL")
+    #Codigo Nuevo
+    
     if opt.webcam==1:
         cap = cv2.VideoCapture(0)
         out = cv2.VideoWriter('output.mp4',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (1280,960))
@@ -74,7 +79,15 @@ if __name__ == "__main__":
         ret, frame = cap.read()
         if ret is False:
             break
+        
+        #Codigo Nuevo
+        bbox = (287, 23, 86, 320)
+        ret = tracker.init(frame, bbox)
+        print ret
+        #Codigo Nuevo
+        
         frame = cv2.resize(frame, (1280, 960), interpolation=cv2.INTER_CUBIC)
+
         #LA imagen viene en Blue, Green, Red y la convertimos a RGB que es la entrada que requiere el modelo
         RGBimg=Convertir_RGB(frame)
         imgTensor = transforms.ToTensor()(RGBimg)
