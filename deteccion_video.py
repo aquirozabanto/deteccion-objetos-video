@@ -10,6 +10,11 @@ from PIL import Image
 import torch
 from torch.autograd import Variable
 
+from sort import *
+mot_tracker = Sort()
+
+
+
 def Convertir_RGB(img):
     # Convertir Blue, green, red a Red, green, blue
     b = img[:, :, 0].copy()
