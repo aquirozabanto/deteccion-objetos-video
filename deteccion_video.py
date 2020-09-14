@@ -92,13 +92,20 @@ if __name__ == "__main__":
 
         for detection in detections:
             if detection is not None:
-                detection = rescale_boxes(detection, opt.img_size, RGBimg.shape[:2])
-                for x1, y1, x2, y2, conf, cls_conf, cls_pred in detection:
+                # Change: detection = rescale_boxes(detection, opt.img_size, RGBimg.shape[:2])
+                detection = mot_tracker.update(detections.cpu())
+                unique_labels = detections[:, -1].cpu().unique()
+                n_cls_preds = len(unique_labels)
+                
+                # Change: for x1, y1, x2, y2, conf, cls_conf, cls_pred in detection:
+                for x1, y1, x2, y2, obj_id, cls_pred in detection:
+                    
                     box_w = x2 - x1
                     box_h = y2 - y1
                     color = [int(c) for c in colors[int(cls_pred)]]
                     
-                    print("Se detectó {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x1, y1, x2, y2))
+                    # Change: print("Se detectó {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x1, y1, x2, y2))
+                    print("Se detectó {}, {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], str(int(obj_id)), x1, y1, x2, y2))
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
                     
                     cv2.putText(frame, classes[int(cls_pred)], (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 5)# Nombre de la clase detectada
