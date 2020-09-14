@@ -9,7 +9,6 @@ import cv2
 from PIL import Image
 import torch
 from torch.autograd import Variable
-from sort import *
 
 
 def Convertir_RGB(img):
@@ -77,20 +76,7 @@ if __name__ == "__main__":
         if ret is False:
             break
         
-        #frame = cv2.resize(frame, (1280, 960), interpolation=cv2.INTER_CUBIC)
-
-    #Codigo Nuevo        
-    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    pilimg = Image.fromarray(frame)
-    detections = detect_image(pilimg)
-    img = np.array(pilimg)
-    pad_x = max(img.shape[0] - img.shape[1], 0) * 
-            (img_size / max(img.shape))
-    pad_y = max(img.shape[1] - img.shape[0], 0) * 
-            (img_size / max(img.shape))
-    unpad_h = img_size - pad_y
-    unpad_w = img_size - pad_x
-    #Codigo Nuevo        
+        frame = cv2.resize(frame, (1280, 960), interpolation=cv2.INTER_CUBIC)
         
         #LA imagen viene en Blue, Green, Red y la convertimos a RGB que es la entrada que requiere el modelo
         RGBimg=Convertir_RGB(frame)
@@ -108,42 +94,14 @@ if __name__ == "__main__":
             if detection is not None:
                 detection = rescale_boxes(detection, opt.img_size, RGBimg.shape[:2])
 
-        #Codigo Nuevo        
-        tracked_objects = mot_tracker.update(detections.cpu())
-        unique_labels = detections[:, -1].cpu().unique()
-        n_cls_preds = len(unique_labels)
-        #Codigo Nuevo        
-                
-                
-                #for x1, y1, x2, y2, conf, cls_conf, cls_pred, obj_id in detection:
-
-        #Codigo Nuevo        
-            for x1, y1, x2, y2, obj_id, cls_pred in tracked_objects:
-            box_h = int(((y2 - y1) / unpad_h) * img.shape[0])
-            box_w = int(((x2 - x1) / unpad_w) * img.shape[1])
-            y1 = int(((y1 - pad_y // 2) / unpad_h) * img.shape[0])
-            x1 = int(((x1 - pad_x // 2) / unpad_w) * img.shape[1])
-            color = colors[int(obj_id) % len(colors)]
-            color = [i * 255 for i in color]
-            cls = classes[int(cls_pred)]
-            cv2.rectangle(frame, (x1, y1), (x1+box_w, y1+box_h),
-                         color, 4)
-            cv2.rectangle(frame, (x1, y1-35), (x1+len(cls)*19+60,
-                         y1), color, -1)
-            cv2.putText(frame, cls + "-" + str(int(obj_id)), 
-                        (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 
-                        1, (255,255,255), 3)
-        #Codigo Nuevo        
-                    
-                    
-                    #box_w = x2 - x1
-                    #box_h = y2 - y1
-                    #color = [int(c) for c in colors[int(cls_pred)]]
-
-                    #print("Identificado {} {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], str(int(obj_id)), x1, y1, x2, y2))
-                    #frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
-                    #cv2.putText(frame, classes[int(cls_pred)], (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 5)# Nombre de la clase detectada
-                    #cv2.putText(frame, str("%.2f" % float(conf)), (x2, y2 - box_h), cv2.FONT_HERSHEY_SIMPLEX, 0.5,color, 5) # Certeza de prediccion de la clase
+                for x1, y1, x2, y2, conf, cls_conf, cls_pred, obj_id in detection:
+                box_w = x2 - x1
+                box_h = y2 - y1
+                color = [int(c) for c in colors[int(cls_pred)]]
+                print("Identificado {} {} en X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], str(int(obj_id)), x1, y1, x2, y2))
+                frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
+                cv2.putText(frame, classes[int(cls_pred)], (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 5)# Nombre de la clase detectada
+                cv2.putText(frame, str("%.2f" % float(conf)), (x2, y2 - box_h), cv2.FONT_HERSHEY_SIMPLEX, 0.5,color, 5) # Certeza de prediccion de la clase
                     
         #Convertimos de vuelta a BGR para que cv2 pueda desplegarlo en los colores correctos
         if opt.webcam==1:
