@@ -10,8 +10,7 @@ from PIL import Image
 import torch
 from torch.autograd import Variable
 
-(major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')￼
-
+(major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
 def Convertir_RGB(img):
     # Convertir Blue, green, red a Red, green, blue
     b = img[:, :, 0].copy()
