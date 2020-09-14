@@ -94,7 +94,7 @@ if __name__ == "__main__":
             if detection is not None:
                 detection = rescale_boxes(detection, opt.img_size, RGBimg.shape[:2])
 
-                for x1, y1, x2, y2, conf, cls_conf, cls_pred, obj_id in detection:
+                for x1, y1, x2, y2, conf, cls_conf, cls_pred in detection:
                     box_w = x2 - x1
                     box_h = y2 - y1
                     color = [int(c) for c in colors[int(cls_pred)]]
