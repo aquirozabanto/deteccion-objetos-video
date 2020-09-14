@@ -98,16 +98,14 @@ if __name__ == "__main__":
         for detection in detections:
             if detection is not None:
                 detection = rescale_boxes(detection, opt.img_size, RGBimg.shape[:2])
-                
                 x=x+1
-                
                 for x1, y1, x2, y2, conf, cls_conf, cls_pred in detection:
-                    
-                    box_w = x2 - x1
-                    box_h = y2 - y1
+                    box_w = x2 - x1     #Desplazamiento del objeto detectado en el eje X
+                    box_h = y2 - y1     #Desplazamiento del objeto detectado en el eje Y
                     color = [int(c) for c in colors[int(cls_pred)]]
                     
-                    print("En Frane {} {} - X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x, x1, y1, x2, y2))
+                    #print("En Frame {} {} - X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x, x1, y1, x2, y2))
+                    print("Clase {}|Frame {}|ΔX {}|ΔY {}|X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x, box_w, box_h, x1, y1, x2, y2))
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
                     
                     cv2.putText(frame, classes[int(cls_pred)], (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 5)# Nombre de la clase detectada
