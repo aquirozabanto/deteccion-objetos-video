@@ -51,6 +51,30 @@ if __name__ == "__main__":
     print("cuda" if torch.cuda.is_available() else "cpu")
     model = Darknet(opt.model_def, img_size=opt.img_size).to(device)
 
+    #Codigo Nuevo
+    tracker_types = ['BOOSTING', 'MIL','KCF', 'TLD', 'MEDIANFLOW', 'GOTURN', 'MOSSE', 'CSRT']
+    tracker_type = tracker_types[2]
+
+    if int(minor_ver) < 3:
+        tracker = cv2.Tracker_create(tracker_type)
+    else:
+        if tracker_type == 'BOOSTING':
+            tracker = cv2.TrackerBoosting_create()
+        if tracker_type == 'MIL':
+            tracker = cv2.TrackerMIL_create()
+        if tracker_type == 'KCF':
+            tracker = cv2.TrackerKCF_create()
+        if tracker_type == 'TLD':
+            tracker = cv2.TrackerTLD_create()
+        if tracker_type == 'MEDIANFLOW':
+            tracker = cv2.TrackerMedianFlow_create()
+        if tracker_type == 'GOTURN':
+            tracker = cv2.TrackerGOTURN_create()
+        if tracker_type == 'MOSSE':
+            tracker = cv2.TrackerMOSSE_create()
+        if tracker_type == "CSRT":
+            tracker = cv2.TrackerCSRT_create()
+    #Codigo Nuevo
 
     if opt.weights_path.endswith(".weights"):
         model.load_darknet_weights(opt.weights_path)
@@ -74,9 +98,54 @@ if __name__ == "__main__":
     a=[]
     while cap:
         ret, frame = cap.read()
+        #ok, frame = video.read()
+
         if ret is False:
             break
         
+        #Codigo Nuevo
+        # Define an initial bounding box
+        bbox = (287, 23, 86, 320)
+        # Uncomment the line below to select a different bounding box
+        bbox = cv2.selectROI(frame, False)
+        # Initialize tracker with first frame and bounding box
+        ret = tracker.init(frame, bbox)
+    while True:
+        # Read a new frame
+        ret, frame = cap.read()
+        if not ret:
+            break
+        
+        # Start timer
+        timer = cv2.getTickCount()
+
+        # Update tracker
+        ret, bbox = tracker.update(frame)
+
+        # Calculate Frames per second (FPS)
+        fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer);
+
+        # Draw bounding box
+        if ret:
+            # Tracking success
+            p1 = (int(bbox[0]), int(bbox[1]))
+            p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
+            cv2.rectangle(frame, p1, p2, (255,0,0), 2, 1)
+        else :
+            # Tracking failure
+            cv2.putText(frame, "Tracking failure detected", (100,80), cv2.FONT_HERSHEY_SIMPLEX, 0.75,(0,0,255),2)
+
+        # Display tracker type on frame
+        cv2.putText(frame, tracker_type + " Tracker", (100,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50),2);
+    
+        # Display FPS on frame
+        cv2.putText(frame, "FPS : " + str(int(fps)), (100,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50), 2);
+
+        # Display result
+        cv2.imshow("Tracking", frame)
+        
+        #Codigo Nuevo
+
         frame = cv2.resize(frame, (1280, 960), interpolation=cv2.INTER_CUBIC)
 
         #LA imagen viene en Blue, Green, Red y la convertimos a RGB que es la entrada que requiere el modelo
@@ -105,6 +174,7 @@ if __name__ == "__main__":
                     cv2.putText(frame, classes[int(cls_pred)], (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 5)# Nombre de la clase detectada
                     cv2.putText(frame, str("%.2f" % float(conf)), (x2, y2 - box_h), cv2.FONT_HERSHEY_SIMPLEX, 0.5,color, 5) # Certeza de prediccion de la clase
 
+                    
         #Convertimos de vuelta a BGR para que cv2 pueda desplegarlo en los colores correctos
         if opt.webcam==1:
             cv2.imshow('frame', Convertir_BGR(RGBimg))
