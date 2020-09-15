@@ -14,7 +14,12 @@ x=0
 def add():
     global x
     x=x+1
- 
+
+y=0
+def add2():
+    global y
+    y=y+1
+    
 def Convertir_RGB(img):
     # Convertir Blue, green, red a Red, green, blue
     b = img[:, :, 0].copy()
@@ -99,13 +104,17 @@ if __name__ == "__main__":
             if detection is not None:
                 detection = rescale_boxes(detection, opt.img_size, RGBimg.shape[:2])
                 x=x+1
+                y=0
                 for x1, y1, x2, y2, conf, cls_conf, cls_pred in detection:
+                    y=y+1
                     box_w = x2 - x1     #Desplazamiento del objeto detectado en el eje X
                     box_h = y2 - y1     #Desplazamiento del objeto detectado en el eje Y
                     color = [int(c) for c in colors[int(cls_pred)]]
                     
                     #print("En Frame {} {} - X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x, x1, y1, x2, y2))
-                    print("Clase {}|Frame {}|ΔX {}|ΔY {}|X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x, box_w, box_h, x1, y1, x2, y2))
+                    #print("Clase {}|Frame {}|ΔX {}|ΔY {}|X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x, box_w, box_h, x1, y1, x2, y2))
+                    print("{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}".format(classes[int(cls_pred)], opt.img_size, x, y, conf, box_w, box_h, x1, y1, x2, y2))
+
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
                     
                     cv2.putText(frame, classes[int(cls_pred)], (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 5)# Nombre de la clase detectada
