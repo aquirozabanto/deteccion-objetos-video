@@ -8,6 +8,7 @@ import argparse
 import cv2
 from PIL import Image
 import torch
+import csv
 from torch.autograd import Variable
 
 x=0
@@ -112,7 +113,13 @@ if __name__ == "__main__":
                     color = [int(c) for c in colors[int(cls_pred)]]
                     
                     #print("En Frame {} {} - X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x, x1, y1, x2, y2))
-                    #print("Clase {}|Frame {}|ΔX {}|ΔY {}|X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x, box_w, box_h, x1, y1, x2, y2))
+                    
+                    myData = [cls_pred, opt.img_size, x, y, conf, box_w, box_h, x1, y1, x2, y2]
+                    myFile = open('example.csv', 'w')
+                    with myFile:
+                        writer = csv.writer(myFile)
+                        writer.writerows(myData)
+     
                     print("{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}".format(classes[int(cls_pred)], opt.img_size, x, y, conf, box_w, box_h, x1, y1, x2, y2))
 
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
