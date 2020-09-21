@@ -117,6 +117,7 @@ if __name__ == "__main__":
 
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
                     
+                    cv2.putText(frame, str("*"), ((x1+x2)/2, (y1+y2)/2), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 5)# Coloca * al centro del dibujo.
                     cv2.putText(frame, classes[int(cls_pred)], (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 5)# Nombre de la clase detectada
                     cv2.putText(frame, str("%.2f" % float(conf)), (x2, y2 - box_h), cv2.FONT_HERSHEY_SIMPLEX, 0.5,color, 5) # Certeza de prediccion de la clase
 
