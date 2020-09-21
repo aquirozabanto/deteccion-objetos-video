@@ -113,7 +113,7 @@ if __name__ == "__main__":
                     
                     #print("En Frame {} {} - X1: {}, Y1: {}, X2: {}, Y2: {}".format(classes[int(cls_pred)], x, x1, y1, x2, y2))
                     
-                    print("{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}".format(classes[int(cls_pred)], opt.img_size, x, y, conf, box_w, box_h, x1, y1, x2, y2))
+                    print("{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}".format(classes[int(cls_pred)], opt.img_size, x, y, conf, box_w, box_h, x1, y1, x2, y2, int((x1+x2)/2), int((y1+y2)/2)))
 
                     frame = cv2.rectangle(frame, (x1, y1 + box_h), (x2, y1), color, 5)
                     
