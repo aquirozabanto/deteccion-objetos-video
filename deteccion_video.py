@@ -130,7 +130,7 @@ if __name__ == "__main__":
             out.write(Convertir_BGR(RGBimg))
             cv2.imshow('frame', RGBimg)
         #cv2.waitKey(0)
-
+        
         if cv2.waitKey(25) & 0xFF == ord('q'):
             break
     out.release()
